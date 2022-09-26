@@ -4,7 +4,7 @@ A small quiz program that uses Turtle Graphics to display that names of US state
 import turtle
 import pandas as pd
 
-# Constant that stores the image file of our map
+# Constants
 IMAGE = "blank_states_img.gif"
 NUMBER_OF_STATES = 50
 
@@ -27,15 +27,15 @@ turtle.onscreenclick(get_mouse_click_coordinates)
 correct = 0
 correct_guesses = []
 # Game continues until is_game_on is set to False
-is_game_on = True
-while is_game_on:
+is_quiz_on = True
+while is_quiz_on:
 
     # Displays an input and asks the user to enter a state
     user_answer = turtle.textinput(title=f"{correct}/{NUMBER_OF_STATES} U.S. States", prompt="Enter a State:").title()
 
     # Reads the states csv
     states_data = pd.read_csv("50_states.csv")
-    # Checks user answer, if correct, writes it to blank map
+    # Checks user answer, if correct, writes it to blank map. If incorrect, quiz ends
     if states_data["state"].eq(user_answer).any():
         x = int(states_data[states_data.state == user_answer].x)
         y = int(states_data[states_data.state == user_answer].y)
@@ -48,7 +48,7 @@ while is_game_on:
         correct_guesses.append(user_answer)
         print(correct_guesses)
     else:
-        is_game_on = False
+        is_quiz_on = False
 
 # Keeps screen open
 turtle.mainloop()
