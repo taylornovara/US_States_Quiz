@@ -36,6 +36,8 @@ while is_quiz_on:
     # Reads the states csv
     states_data = pd.read_csv("50_states.csv")
     # Checks user answer, if correct, writes it to blank map. If incorrect, quiz ends
+    if user_answer == "Exit":
+        break
     if states_data["state"].eq(user_answer).any():
         x = int(states_data[states_data.state == user_answer].x)
         y = int(states_data[states_data.state == user_answer].y)
@@ -46,9 +48,15 @@ while is_quiz_on:
         answer.write(user_answer)
         correct += 1
         correct_guesses.append(user_answer)
-        print(correct_guesses)
+        if len(correct_guesses) >= 50:
+            is_quiz_on = False
     else:
         is_quiz_on = False
+        final_score = turtle.Turtle()
+        final_score.hideturtle()
+        final_score.penup()
+        final_score.setposition(-338, 260)
+        final_score.write(f"You got {correct} / {NUMBER_OF_STATES} correct!", font=("Arial", 18, "bold"))
 
 # Keeps screen open
 turtle.mainloop()
