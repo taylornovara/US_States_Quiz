@@ -6,6 +6,7 @@ import pandas as pd
 
 # Constant that stores the image file of our map
 IMAGE = "blank_states_img.gif"
+NUMBER_OF_STATES = 50
 
 # Creates the screen and adds the blank US Map as the background to use for our quiz
 screen = turtle.Screen()
@@ -22,10 +23,15 @@ def get_mouse_click_coordinates(x_cor, y_cor):
 # Listens for mouse click and calls our coordinates function
 turtle.onscreenclick(get_mouse_click_coordinates)
 
+# Sets the correct number of states to 0
+correct = 0
+correct_guesses = []
+# Game continues until is_game_on is set to False
 is_game_on = True
 while is_game_on:
+
     # Displays an input and asks the user to enter a state
-    user_answer = turtle.textinput(title="U.S. States", prompt="Enter a State:").title()
+    user_answer = turtle.textinput(title=f"{correct}/{NUMBER_OF_STATES} U.S. States", prompt="Enter a State:").title()
 
     # Reads the states csv
     states_data = pd.read_csv("50_states.csv")
@@ -38,8 +44,11 @@ while is_game_on:
         answer.penup()
         answer.setposition(x, y)
         answer.write(user_answer)
+        correct += 1
+        correct_guesses.append(user_answer)
+        print(correct_guesses)
     else:
-        pass
+        is_game_on = False
 
 # Keeps screen open
 turtle.mainloop()
